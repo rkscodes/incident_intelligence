@@ -130,3 +130,6 @@ dmypy.json
 
 # Manually excluded 
 terraform/.terraform/*
+nohup.out
+data/
+temp/
