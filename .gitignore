@@ -134,3 +134,4 @@ nohup.out
 data/
 temp/
 .vscode/
+.DS_Store

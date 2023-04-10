@@ -1,4 +1,4 @@
-name: base
+name: incident_test
 channels:
   - defaults
 dependencies:
