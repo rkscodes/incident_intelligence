@@ -22,7 +22,7 @@ if __name__ == "__main__":
             f.write("0")
     offset = int(offset)
 
-    parent_etl_flow(offset=714500)
+    parent_etl_flow(offset)
 
 # idea store offset value in .yaml file
 # also store base of the project in that file
