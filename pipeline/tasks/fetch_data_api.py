@@ -1,6 +1,5 @@
 from prefect import task
-
-from utils.client import client
+from pipeline.utils.client import client
 import pandas as pd
 
 

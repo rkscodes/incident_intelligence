@@ -1,10 +1,10 @@
 from prefect import flow
 from update_gcb_flow import update_gcb_file_if_already_exists
-from tasks.fetch_data_api import fetch_data_api
-from tasks.augment_data import augment_data
-from tasks.save_data_locally import save_data_locally
-from tasks.check_recently_modified_files import check_recently_modified_files
-from tasks.check_existing_files_in_gcb import check_existing_files_in_gcb
+from pipeline.tasks.fetch_data_api import fetch_data_api
+from pipeline.tasks.augment_data import augment_data
+from pipeline.tasks.save_data_locally import save_data_locally
+from pipeline.tasks.check_recently_modified_files import check_recently_modified_files
+from pipeline.tasks.check_existing_files_in_gcb import check_existing_files_in_gcb
 
 
 @flow(log_prints=True)

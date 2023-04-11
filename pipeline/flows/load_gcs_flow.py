@@ -1,7 +1,7 @@
 from prefect import flow
 from prefect_gcp.cloud_storage import GcsBucket
 from typing import List
-from utils.renamed_file_name import renamed_file_name
+from pipeline.utils.renamed_file_name import renamed_file_name
 
 
 @flow(log_prints=True)

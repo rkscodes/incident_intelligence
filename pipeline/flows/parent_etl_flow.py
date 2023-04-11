@@ -1,7 +1,7 @@
 from prefect import flow
 from extract_flow import extract
 from load_gcs_flow import load_gcs
-from tasks.remove_data_local import remove_data_local
+from pipeline.tasks.remove_data_local import remove_data_local
 
 
 @flow(log_prints=True)
