@@ -133,3 +133,4 @@ terraform/.terraform/*
 nohup.out
 data/
 temp/
+.vscode/
