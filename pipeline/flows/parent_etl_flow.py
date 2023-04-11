@@ -1,7 +1,8 @@
-from prefect import flow
+from prefect import flow, task
 from extract_flow import extract
 from load_gcs_flow import load_gcs
-from pipeline.tasks.remove_data_local import remove_data_local
+from pathlib import Path
+import shutil
 
 
 @flow(log_prints=True)
@@ -9,6 +10,12 @@ def parent_etl_flow(offset: int = 0):
     local_file_list = extract(offset)
     load_gcs(local_file_list)
     remove_data_local()
+
+
+@task()
+def remove_data_local():
+    if Path("data/").is_dir():
+        shutil.rmtree("data/")
 
 
 if __name__ == "__main__":
