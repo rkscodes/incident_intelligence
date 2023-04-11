@@ -1,8 +1,9 @@
-from prefect import task
+from prefect import flow, task
 import pandas as pd
+import hashlib
 
 
-@task()
+@flow()
 def augment_data(api_data):
     # Extract month and date from the incident_date column s
 
@@ -14,4 +15,15 @@ def augment_data(api_data):
 
     api_data["incident_year"] = api_data["incident_year"].astype(str)
 
+    # creating hash of the row and inserting it in end
+    api_data["hash"] = api_data.apply(compute_hash, axis=1)
+
     return api_data
+
+
+@task()
+def compute_hash(row):
+    row_str = " ".join([str(val) for val in row.values])
+
+    hash_value = hashlib.md5(row_str.encode()).hexdigest()
+    return hash_value
