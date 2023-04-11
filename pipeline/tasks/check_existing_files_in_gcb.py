@@ -1,8 +1,13 @@
 from prefect import task
+from prefect.tasks import exponential_backoff
 from prefect_gcp.cloud_storage import GcsBucket
 
 
-@task
+@task(
+    retries=3,
+    retry_delay_seconds=exponential_backoff(backoff_factor=10),
+    retry_jitter_factor=0.5,
+)
 def check_existing_files_in_gcb():
     gcs_block = GcsBucket.load("gcp-bucket-block")
 

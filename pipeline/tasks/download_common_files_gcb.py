@@ -1,10 +1,15 @@
 from prefect import task
+from prefect.tasks import exponential_backoff
 from pathlib import Path
 from prefect_gcp.cloud_storage import GcsBucket
 from typing import List
 
 
-@task
+@task(
+    retries=3,
+    retry_delay_seconds=exponential_backoff(backoff_factor=10),
+    retry_jitter_factor=0.5,
+)
 def download_common_files_gcb(common_files: List):
     for files in common_files:
         to_path_dir = Path("temp") / Path(files).parent

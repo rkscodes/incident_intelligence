@@ -1,9 +1,14 @@
 from prefect import task
+from prefect.tasks import exponential_backoff
 from pipeline.utils.client import client
 import pandas as pd
 
 
-@task()
+@task(
+    retries=4,
+    retry_delay_seconds=exponential_backoff(backoff_factor=10),
+    retry_jitter_factor=0.5,
+)
 def fetch_data_api(offset: int):
     records_count = client.get("wg3w-h783", select="count(*)")
     total_no_of_records = int(records_count[0]["count"])
