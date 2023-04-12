@@ -2,11 +2,17 @@ from prefect import flow, task
 from extract_flow import extract
 from load_gcs_flow import load_gcs
 from pathlib import Path
+from extract_flow import total_no_of_records
 import shutil
 
+# Ideas, refactor code to include type-hint , use black with isort
 
 @flow(log_prints=True)
 def parent_etl_flow(offset: int = 0):
+    #sanity check 
+    if total_no_of_records() == offset:
+        print("No new data to fetch")
+        return 
     local_file_list = extract(offset)
     load_gcs(local_file_list)
     remove_data_local()

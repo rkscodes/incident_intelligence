@@ -29,12 +29,10 @@ def extract(offset: int):
     retry_jitter_factor=0.5,
 )
 def fetch_data_api(offset: int):
-    records_count = client.get("wg3w-h783", select="count(*)")
-    total_no_of_records = int(records_count[0]["count"])
-
+    total_records = total_no_of_records()
     api_data = pd.DataFrame()
 
-    while total_no_of_records != offset:
+    while total_records != offset:
         results = client.get("wg3w-h783", offset=offset, limit=50000)
         results_df = pd.DataFrame.from_records(results)
         api_data = pd.concat([api_data, results_df])
@@ -47,9 +45,15 @@ def fetch_data_api(offset: int):
     return api_data
 
 
+def total_no_of_records() -> int:
+    records_count = client.get("wg3w-h783", select="count(*)")
+    total_records = int(records_count[0]["count"])
+    return total_records
+
+
 @task()
 def update_data(api_data):
-    # Extract month and date from the incident_date column s
+    # Extract month and date from the incident_date columns
 
     col = pd.DatetimeIndex(api_data["incident_date"]).month.astype(str).str.zfill(2)
     api_data.insert(loc=4, column="incident_month", value=col)
