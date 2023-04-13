@@ -77,15 +77,15 @@ resource "google_compute_instance" "deincidentcompute" {
 
   tags = ["http-server", "https-server"]
 
-  service_account {
-    email = "557177865159-compute@developer.gserviceaccount.com"
-    scopes = ["https://www.googleapis.com/auth/devstorage.read_only",
-      "https://www.googleapis.com/auth/logging.write",
-      "https://www.googleapis.com/auth/monitoring.write",
-      "https://www.googleapis.com/auth/servicecontrol",
-      "https://www.googleapis.com/auth/service.management.readonly",
-    "https://www.googleapis.com/auth/trace.append"]
-  }
+  # service_account {
+  #   email = "557177865159-compute@developer.gserviceaccount.com"
+  #   scopes = ["https://www.googleapis.com/auth/devstorage.read_only",
+  #     "https://www.googleapis.com/auth/logging.write",
+  #     "https://www.googleapis.com/auth/monitoring.write",
+  #     "https://www.googleapis.com/auth/servicecontrol",
+  #     "https://www.googleapis.com/auth/service.management.readonly",
+  #   "https://www.googleapis.com/auth/trace.append"]
+  # }
 
   scheduling {
     automatic_restart   = true
@@ -137,3 +137,399 @@ resource "google_bigquery_dataset" "data-warehouse" {
   location                   = var.region
   delete_contents_on_destroy = true
 }
+
+resource "google_bigquery_table" "default_table" {
+  dataset_id          = var.BQ_DATASET
+  table_id            = "default_table"
+  deletion_protection = false
+  schema              = <<EOF
+  [
+    {
+        "name": "incident_datetime",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_date",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_time",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_year",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_month",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_day",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_day_of_week",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "report_datetime",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "row_id",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_id",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_number",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "report_type_code",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "report_type_description",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_code",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_category",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_subcategory",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_description",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "resolution",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "police_district",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "filed_online",
+        "type": "BOOLEAN",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "cad_number",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "intersection",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "cnn",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "analysis_neighborhood",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "supervisor_district",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "supervisor_district_2012",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "latitude",
+        "type": "FLOAT",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "longitude",
+        "type": "FLOAT",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "point",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "computed_region_jwn9_ihcz",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "computed_region_26cr_cadq",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "computed_region_qgnn_b9vv",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "computed_region_n4xg_c4py",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "computed_region_nqbw_i6c3",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "computed_region_h4ep_8xdi",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "computed_region_jg9y_a9du",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "hash_key",
+        "type": "STRING",
+        "mode": "REQUIRED"
+    }
+]
+  
+  EOF
+
+}
+
+
+resource "google_bigquery_table" "staging_table" {
+  dataset_id          = var.BQ_DATASET
+  table_id            = "staging_table"
+  deletion_protection = false
+  schema              = <<EOF
+  [
+    {
+        "name": "incident_datetime",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_date",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_time",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_year",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_month",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_day",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_day_of_week",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "report_datetime",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "row_id",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_id",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_number",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "report_type_code",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "report_type_description",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_code",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_category",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_subcategory",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "incident_description",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "resolution",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "police_district",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "filed_online",
+        "type": "BOOLEAN",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "cad_number",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "intersection",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "cnn",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "analysis_neighborhood",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "supervisor_district",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "supervisor_district_2012",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "latitude",
+        "type": "FLOAT",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "longitude",
+        "type": "FLOAT",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "point",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "computed_region_jwn9_ihcz",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "computed_region_26cr_cadq",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "computed_region_qgnn_b9vv",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "computed_region_n4xg_c4py",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "computed_region_nqbw_i6c3",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "computed_region_h4ep_8xdi",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "computed_region_jg9y_a9du",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "hash_key",
+        "type": "STRING",
+        "mode": "REQUIRED"
+    }
+]
+  
+  EOF
+
+}
+
