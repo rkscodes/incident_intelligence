@@ -1,5 +1,6 @@
-from prefect_gcp import GcpCredentials
 from pathlib import Path
+
+from prefect_gcp import GcpCredentials
 
 # replace this PLACEHOLDER dict with your own service account info
 service_account_file = (
