@@ -37,7 +37,7 @@ Insert gif or link to demo
 1. Refer  [Setup Terraform](#setup-terraform) 
 2. Git clone project on GCP: ``
 3. Change to cloned directory: `git clone https://github.com/rkscodes/incident_intelligence.git`
-4. Refer [Setup GCP Cloud](setup-gcp-cloud) 
+4. Refer [Setup GCP Cloud](#setup-gcp-cloud) 
 5. Activate the conda-env: `conda activate <env-name> `
 6. Install all required dependency: `poetry install -—no-root`
 7. Setup `config.json` with required details, change `offset` to 0 to 
