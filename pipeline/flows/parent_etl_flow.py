@@ -1,20 +1,23 @@
-from prefect import flow, task
-from extract_flow import extract
-from load_gcs_flow import load_gcs
-from pathlib import Path
-from extract_flow import total_no_of_records
+import json
 import shutil
+from pathlib import Path
 
-# Ideas, refactor code to include type-hint , use black with isort
+from extract_flow import extract, total_no_of_records
+from load_bigquery_flow import load_bigquery
+from load_gcs_flow import load_gcs
+from prefect import flow, task
+
 
 @flow(log_prints=True)
 def parent_etl_flow(offset: int = 0):
-    #sanity check 
+    # sanity check
     if total_no_of_records() == offset:
         print("No new data to fetch")
-        return 
+        return
+
     local_file_list = extract(offset)
-    load_gcs(local_file_list)
+    gcs_file_paths = load_gcs(local_file_list)
+    load_bigquery(gcs_file_paths)
     remove_data_local()
 
 
@@ -22,21 +25,15 @@ def parent_etl_flow(offset: int = 0):
 def remove_data_local():
     if Path("data/").is_dir():
         shutil.rmtree("data/")
+    if Path("data-gcs/").is_dir():
+        shutil.rmtree("data-gcs/")
 
 
 if __name__ == "__main__":
     # get offset
-    offset = "0"
-    try:
-        with open("offset.txt", "r") as f:
-            offset = f.readline()
-    except FileNotFoundError:
-        with open("offset.txt", "w+") as f:
-            f.write("0")
-    offset = int(offset)
+    with open("config.json", "r") as config_file:
+        config = json.load(config_file)
+
+    offset = config.get("offset")
 
     parent_etl_flow(offset)
-
-# idea store offset value in .yaml file
-# also store base of the project in that file
-# make download path with respect to variable in this project
