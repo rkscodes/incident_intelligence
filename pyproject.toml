@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "incident-intelligence"
+version = "0.1.0"
+description = "A data pipeline utilizing ELT (Extract, Load, Transform) process to fetch San Francisco Police Department incident data"
+authors = ["Ram Krishna Singh <rkscodes@gmail.com>"]
+license = "Apache License"
+readme = "README.md"
+packages = [{include = "incident_intelligence"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+prefect = "^2.10.4"
+pandas = "^2.0.0"
+sodapy = "^2.2.0"
+prefect-gcp = "^0.4.0"
+google-cloud-bigquery = "^3.9.0"
+
+[tool.poetry.group.dev.dependencies]
+jupyterlab = "^3.6.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
