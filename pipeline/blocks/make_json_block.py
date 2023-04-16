@@ -9,7 +9,7 @@ with open("config.json", "r") as config_file:
 json_block_value = {
     "project_id": config.get("project_id"),
     "dataset_id": config.get("dataset_id"),
-    "table_id": config.get("dataset_id"),
+    "table_id": config.get("table_id"),
     "service_account_file_path": config.get("service_account_file_path"),
     "gcs_bucket_name": config.get("gcs_bucket_name"),
 }
