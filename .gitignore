@@ -136,4 +136,6 @@ temp/
 .vscode/
 .DS_Store
 data-gcs/
+offset_dir/
 test.ipynb
+test.py
