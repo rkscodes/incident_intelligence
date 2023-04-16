@@ -1,9 +1,10 @@
-import json
 from datetime import datetime, timedelta
 from pathlib import Path
 
 import pandas as pd
 from prefect import flow, task
+from prefect.tasks import exponential_backoff
+from prefect_gcp.cloud_storage import GcsBucket
 from sodapy import Socrata
 from utils.compute_hash import compute_hash
 
@@ -40,13 +41,29 @@ def fetch_and_validate_api_data(offset: int):
     return api_data
 
 
-@task()
+@task(
+    retries=3,
+    retry_delay_seconds=exponential_backoff(backoff_factor=10),
+    retry_jitter_factor=0.5,
+)
 def update_offset(offset):
-    with open("config.json", "r") as config_file:
-        config = json.load(config_file)
-    config["offset"] = offset
-    with open("config.json", "w") as config_file:
-        json.dump(config, config_file, indent=4)
+    gcs_bucket: GcsBucket = GcsBucket.load("gcp-bucket-block")
+    offset_dir: Path = Path("offset_dir")
+    offset_file_name: str = "offset.txt"
+    offset_file_path = offset_dir / Path(offset_file_name)
+
+    with open(str(offset_file_path), "w") as file:
+        offset = file.write(str(offset))
+    file.close()
+
+    # upload the file back to gcs
+    gcs_bucket.upload_from_path(from_path=offset_dir / offset_file_name, to_path=offset_file_name)
+
+
+def total_no_of_records() -> int:
+    records_count = client.get("wg3w-h783", select="count(*)")
+    total_records = int(records_count[0]["count"])
+    return total_records
 
 
 @task()
@@ -69,15 +86,6 @@ def ensure_data_consitency(results_df):
             results_df[col] = pd.Series(dtype="object")
 
     return results_df
-
-
-task()
-
-
-def total_no_of_records() -> int:
-    records_count = client.get("wg3w-h783", select="count(*)")
-    total_records = int(records_count[0]["count"])
-    return total_records
 
 
 @task()
