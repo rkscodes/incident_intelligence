@@ -15,9 +15,14 @@ prefect_gcp_install:
 	prefect block register -m prefect_gcp
 
 register_blocks: pipeline/blocks/make_gcp_credentials.py pipeline/blocks/make_gcs_bucket.py
+	python pipeline/blocks/make_json_block.py
 	python pipeline/blocks/make_gcp_credentials.py
 	python pipeline/blocks/make_gcs_bucket.py
+	python pipeline/blocks/make_github_repo_block.py
 
 format:
 	isort --profile black -l 100 ./
 	black -l 100 ./
+
+clean:
+	rm -rf data/ data-gcs/ offset_dir/
