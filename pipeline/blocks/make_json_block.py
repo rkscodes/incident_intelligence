@@ -14,6 +14,7 @@ json_block_value = {
     "gcs_bucket_name": config.get("gcs_bucket_name"),
     "github_repo": config.get("github_repo"),
     "branch": config.get("branch"),
+    "bucket": config.get("bucket"),
 }
 
 # Create the JSON block

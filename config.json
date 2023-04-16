@@ -1,6 +1,7 @@
 {
     "project_id": "affable-tangent-382517",
     "dataset_id": "police_incidents_warehouse",
+    "bucket": "incident_data_lake_affable-tangent-382517",
     "table_id": "staging_table",
     "service_account_file_path": "/Users/ram/.config/gcloud/affable-tangent-382517-239724fdc96c_terraform.json",
     "gcs_bucket_name": "incident_data_lake_affable-tangent-382517",
