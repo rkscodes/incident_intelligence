@@ -14,6 +14,8 @@ pandas = "^2.0.0"
 sodapy = "^2.2.0"
 prefect-gcp = "^0.4.0"
 google-cloud-bigquery = "^3.9.0"
+black = "^23.3.0"
+isort = "^5.12.0"
 
 [tool.poetry.group.dev.dependencies]
 jupyterlab = "^3.6.3"
