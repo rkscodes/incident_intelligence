@@ -1,11 +1,9 @@
-import json
-
+from prefect.blocks.system import JSON
 from prefect_gcp import GcpCredentials, GcsBucket
 
-with open("config.json", "r") as config_file:
-    config = json.load(config_file)
+json_block = JSON.load("json-config")
 
-bucket = config.get("gcs_bucket_name")
+bucket = json_block.value["bucket"]
 
 GcsBucket(bucket=bucket, gcp_credentials=GcpCredentials.load("gcp-credential-block")).save(
     "gcp-bucket-block"

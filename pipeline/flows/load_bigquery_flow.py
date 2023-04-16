@@ -1,8 +1,8 @@
-import json
 from pathlib import Path
 
 from google.cloud import bigquery
 from prefect import flow, task
+from prefect.blocks.system import JSON
 from prefect.tasks import exponential_backoff
 from prefect_gcp import GcpCredentials
 from prefect_gcp.cloud_storage import GcsBucket
@@ -32,12 +32,10 @@ def extract_from_gcs(gcs_file_paths: Path):
 
 @task()
 def upload_gbq(path_list):
-    # reading required variables
-    with open("config.json", "r") as config_file:
-        config = json.load(config_file)
-
-    dataset_id = config.get("dataset_id")
-    table_id = config.get("table_id")
+    # Getting required config from json block
+    json_block = JSON.load("json-config")
+    dataset_id = json_block.value["dataset_id"]
+    table_id = json_block.value["table_id"]
 
     gcp_credentials_block = GcpCredentials.load("gcp-credential-block")
     credentials = gcp_credentials_block.get_credentials_from_service_account()
