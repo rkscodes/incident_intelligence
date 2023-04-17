@@ -19,6 +19,13 @@ register_blocks: pipeline/blocks/make_gcp_credentials.py pipeline/blocks/make_gc
 	python pipeline/blocks/make_gcp_credentials.py
 	python pipeline/blocks/make_gcs_bucket.py
 	python pipeline/blocks/make_github_repo_block.py
+	pythnon pipeline/blocks/make_docker_container.py
+
+deployment: 
+	prefect deployment apply pipeline/deployment/infra-docker-storage-docker.yaml
+	prefect deployment apply pipeline/deployment/infra-docker-storage-github.yaml
+	prefect deployment apply pipeline/deployment/infra-local-storage-github.yaml
+	prefect deployment apply pipeline/deployment/infra-local-storage-local.yaml
 
 format:
 	isort --profile black -l 100 ./
