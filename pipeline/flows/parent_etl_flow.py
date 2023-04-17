@@ -20,15 +20,12 @@ def parent_etl_flow(offset: int = -1):
     if total_no_of_records() == offset:
         print("🚫 No new data to fetch")
         return
-    say_hello()
     local_file_list = extract(offset)
     gcs_file_paths = load_gcs(local_file_list)
     load_bigquery(gcs_file_paths)
     remove_data_local()
 
-@task()
-def say_hello():
-    print("Hello, this confirms it is pulling from github")
+
 @task(
     retries=3,
     retry_delay_seconds=exponential_backoff(backoff_factor=10),
