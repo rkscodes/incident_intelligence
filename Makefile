@@ -19,7 +19,7 @@ register_blocks: pipeline/blocks/make_gcp_credentials.py pipeline/blocks/make_gc
 	python pipeline/blocks/make_gcp_credentials.py
 	python pipeline/blocks/make_gcs_bucket.py
 	python pipeline/blocks/make_github_repo_block.py
-	pythnon pipeline/blocks/make_docker_container.py
+	python pipeline/blocks/make_docker_container.py
 
 deployment: 
 	python pipeline/flows/infra-local-storage-github_deployment.py
