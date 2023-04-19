@@ -16,9 +16,12 @@ prefect-gcp = "^0.4.0"
 google-cloud-bigquery = "^3.9.0"
 black = "^23.3.0"
 isort = "^5.12.0"
+dbt-core = "^1.4.5"
+dbt-bigquery = "^1.4.3"
 
 [tool.poetry.group.dev.dependencies]
-jupyterlab = "^3.6.3"
+jupyterlab = "3.4"
+shandy-sqlfmt = {extras = ["jinjafmt"], version = "^0.17.1"}
 
 [build-system]
 requires = ["poetry-core"]

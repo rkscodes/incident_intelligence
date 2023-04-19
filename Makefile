@@ -21,13 +21,23 @@ register_blocks: pipeline/blocks/make_gcp_credentials.py pipeline/blocks/make_gc
 	python pipeline/blocks/make_github_repo_block.py
 	python pipeline/blocks/make_docker_container.py
 
+remove_blocks:
+	-prefect block delete json/json-config
+	-prefect block delete docker-container/docker-block
+	-prefect block delete gcp-credentials/gcp-credential-block
+	-prefect block delete gcs-bucket/gcp-bucket-block
+	-prefect block delete github/project-code
+
 deployment: 
 	python pipeline/flows/infra-local-storage-github_deployment.py
 	python pipeline/flows/infra-docker-storage-github_deployment.py
+	python pipeline/flows/infra-docker-storage-local_deployment.py
+
 
 format:
 	isort --profile black -l 100 ./
 	black -l 100 ./
+	sqlfmt .
 
-clean:
-	rm -rf data/ data-gcs/ offset_dir/
+clean: remove_blocks
+	-rm -rf data/ data-gcs/ offset_dir/
