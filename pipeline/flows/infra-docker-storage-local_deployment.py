@@ -2,7 +2,6 @@ from parent_etl_flow import parent_etl_flow
 from prefect.deployments import Deployment
 from prefect.infrastructure import DockerContainer
 
-
 docker_container_block = DockerContainer.load("docker-block")
 
 deployment = Deployment.build_from_flow(
