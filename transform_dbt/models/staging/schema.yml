@@ -1,0 +1,17 @@
+version : 2 
+
+sources: 
+  - name: default
+    schema: police_incidents_warehouse
+    tables:
+      - name: raw_ingest
+
+  
+models:
+  - name : stg_incidence_data
+    columns:
+      - name: hash_key
+        type: STRING
+        description: "A hash key on row to uniquely identifying the incident."
+        tests:
+          - not_null
