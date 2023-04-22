@@ -1302,6 +1302,18 @@ protobuf = ">=3.19.5,<3.20.0 || >3.20.0,<3.20.1 || >3.20.1,<4.21.1 || >4.21.1,<4
 grpc = ["grpcio (>=1.44.0,<2.0.0dev)"]
 
 [[package]]
+name = "graphql-core"
+version = "3.2.3"
+description = "GraphQL implementation for Python, a port of GraphQL.js, the JavaScript reference implementation for GraphQL."
+category = "main"
+optional = false
+python-versions = ">=3.6,<4"
+files = [
+    {file = "graphql-core-3.2.3.tar.gz", hash = "sha256:06d2aad0ac723e35b1cb47885d3e5c45e956a53bc1b209a9fc5369007fe46676"},
+    {file = "graphql_core-3.2.3-py3-none-any.whl", hash = "sha256:5766780452bd5ec8ba133f8bf287dc92713e3868ddd83aee4faab9fc3e303dc3"},
+]
+
+[[package]]
 name = "greenlet"
 version = "2.0.2"
 description = "Lightweight in-process concurrent programming"
@@ -3030,6 +3042,31 @@ websockets = ">=10.4"
 dev = ["autoflake8", "cairosvg", "flake8", "flaky", "ipython", "jinja2", "mike", "mkdocs", "mkdocs-gen-files", "mkdocs-material", "mkdocstrings-python", "mock", "moto", "mypy", "numpy", "pillow", "pre-commit", "pytest (>7)", "pytest-asyncio (>=0.18.2)", "pytest-benchmark", "pytest-cov", "pytest-env", "pytest-flakefinder", "pytest-timeout", "pytest-xdist", "pytkdocs (>=0.14.2)", "pyyaml", "requests", "respx", "setuptools (!=60.9.0)", "virtualenv", "watchfiles"]
 
 [[package]]
+name = "prefect-dbt"
+version = "0.3.1"
+description = "Prefect integration for working with dbt"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "prefect-dbt-0.3.1.tar.gz", hash = "sha256:3decad2e49760f6caf418edc206e3332a6515b3a5bed5bc75b797d40a8488025"},
+    {file = "prefect_dbt-0.3.1-py3-none-any.whl", hash = "sha256:6bdbd911570434199d3804c05ef4aacdfa54f9185608115efa1cb9373e3fc905"},
+]
+
+[package.dependencies]
+dbt-core = ">=1.1.1"
+prefect = ">=2.7.2"
+prefect-shell = ">=0.1.0"
+sgqlc = ">=16.0.0"
+
+[package.extras]
+all-extras = ["dbt-bigquery", "dbt-postgres", "dbt-snowflake", "prefect-gcp[bigquery] (>=0.1.8)", "prefect-snowflake (>=0.2.4)", "prefect-sqlalchemy (>=0.2.1)"]
+bigquery = ["dbt-bigquery", "prefect-gcp[bigquery] (>=0.1.8)"]
+dev = ["black", "coverage", "dbt-bigquery", "dbt-postgres", "dbt-snowflake", "flake8", "interrogate", "isort", "mkdocs", "mkdocs-gen-files", "mkdocs-material", "mkdocstrings[python]", "mock", "mypy", "pillow", "pre-commit", "prefect-gcp[bigquery] (>=0.1.8)", "prefect-snowflake (>=0.2.4)", "prefect-sqlalchemy (>=0.2.1)", "pytest", "pytest-asyncio", "respx"]
+postgres = ["dbt-postgres", "prefect-sqlalchemy (>=0.2.1)"]
+snowflake = ["dbt-snowflake", "prefect-snowflake (>=0.2.4)"]
+
+[[package]]
 name = "prefect-gcp"
 version = "0.4.0"
 description = "Prefect tasks and subflows for interacting with Google Cloud Platform."
@@ -3053,6 +3090,24 @@ bigquery = ["google-cloud-bigquery", "google-cloud-bigquery-storage"]
 cloud-storage = ["google-cloud-storage"]
 dev = ["black", "coverage", "flake8", "google-cloud-aiplatform", "google-cloud-bigquery", "google-cloud-bigquery-storage", "google-cloud-secret-manager", "google-cloud-storage", "interrogate", "isort", "mkdocs", "mkdocs-gen-files", "mkdocs-material", "mkdocstrings[python]", "mock", "mypy", "pandas", "pillow", "pre-commit", "pyarrow", "pytest", "pytest-asyncio"]
 secret-manager = ["google-cloud-secret-manager"]
+
+[[package]]
+name = "prefect-shell"
+version = "0.1.5"
+description = "Prefect tasks and subflows for interacting with shell commands."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "prefect-shell-0.1.5.tar.gz", hash = "sha256:719876491a7e6baa655225be0df6d4ac783b71752e2b007466da53285b4ef5a9"},
+    {file = "prefect_shell-0.1.5-py3-none-any.whl", hash = "sha256:a7e12e88b32e9bc10ef26d45ae29074155dbe917f65c036c5767df379ccb03fc"},
+]
+
+[package.dependencies]
+prefect = ">=2.0.0"
+
+[package.extras]
+dev = ["black", "coverage", "flake8", "interrogate", "isort", "mkdocs", "mkdocs-gen-files", "mkdocs-material", "mkdocstrings[python]", "mock", "mypy", "pillow", "pre-commit", "pytest", "pytest-asyncio"]
 
 [[package]]
 name = "prometheus-client"
@@ -3797,6 +3852,26 @@ testing = ["build[virtualenv]", "filelock (>=3.4.0)", "flake8 (<5)", "flake8-202
 testing-integration = ["build[virtualenv]", "filelock (>=3.4.0)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "pytest", "pytest-enabler", "pytest-xdist", "tomli", "virtualenv (>=13.0.0)", "wheel"]
 
 [[package]]
+name = "sgqlc"
+version = "16.1"
+description = "Simple GraphQL Client"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "sgqlc-16.1-py3-none-any.whl", hash = "sha256:d472f25101e40b05dab30193e3fc4ecc36bd671f7a9b04a49954a98d121f0fdb"},
+    {file = "sgqlc-16.1.tar.gz", hash = "sha256:21591009345b116b43a7a7d3995edc25dc2d14092273028205b86d07843a19ac"},
+]
+
+[package.dependencies]
+graphql-core = "*"
+
+[package.extras]
+requests = ["requests"]
+sphinx = ["sphinx", "sphinx-argparse"]
+websocket = ["websocket-client"]
+
+[[package]]
 name = "shandy-sqlfmt"
 version = "0.17.1"
 description = "sqlfmt is an opinionated CLI tool that formats your sql files"
@@ -4411,4 +4486,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "d8dc5eb5cfb291d5c58e734a63d48e718455553e4ea6589d143847f6213d6442"
+content-hash = "b100bac9ab958ed7983235d966237065c51e5d1a00e948f4c476a36d176469d3"
