@@ -9,7 +9,7 @@ install_poetry:
 install_dependencies:
 	poetry install --no-root --without dev
 
-prefect_setup: prefect_register_blocks create_blocks deployment profile_setup
+prefect_setup: prefect_register_blocks create_blocks deployment
 
 prefect_register_blocks:
 	-prefect block register -m prefect_gcp
@@ -47,20 +47,10 @@ deployment_remove:
 	-prefect deployment delete parent-etl-flow/infra-local-storage-github
 	-prefect deployment delete parent-etl-flow/infra-local-storage-local
 
-
-profile_setup:
-	prefect profile use default
-	prefect config set PREFECT_API_URL=http://127.0.0.1:4200/api
-	-prefect profile create remote
-
-profile_remove: 
-	-prefect profile use default
-	-prefect config unset PREFECT_API_URL
-
 format:
 	isort --profile black -l 100 ./
 	black -l 100 ./
 	sqlfmt .
 
-clean: deployment_remove remove_blocks profile_remove
+clean: deployment_remove remove_blocks
 	-rm -rf data/ data-gcs/ offset_dir/
