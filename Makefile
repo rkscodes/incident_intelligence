@@ -62,5 +62,5 @@ format:
 	black -l 100 ./
 	sqlfmt .
 
-clean: remove_blocks profile_remove deployment_remove
+clean: deployment_remove remove_blocks profile_remove
 	-rm -rf data/ data-gcs/ offset_dir/
