@@ -6,7 +6,7 @@ docker_container_block = DockerContainer.load("docker-block")
 
 deployment = Deployment.build_from_flow(
     flow=parent_etl_flow,
-    name="infra-docker-storage-local",
+    name="infra-docker-storage-docker",
     infrastructure=docker_container_block,
     path="/",
     entrypoint="pipeline/flows/parent_etl_flow.py:parent_etl_flow",
