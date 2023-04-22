@@ -1,5 +1,4 @@
 -- {{config(materialized="table")}}
-
 with
     ingest_data as (
         -- deduplication step 
@@ -12,7 +11,7 @@ select
     cast(concat(incident_time, ':00') as time) as incident_time,
     cast(incident_year as int64) as incident_year,
     cast(incident_month as int64) as incident_month,
-    {{ get_month_name("incident_month") }} as incident_month_name,
+    cast({{ get_month_name("incident_month") }} as string) as incident_month_name,
     cast(incident_day as int64) as incident_day,
     cast(incident_day_of_week as string) as incident_day_of_week,
     cast(report_datetime as timestamp) as report_datetime,
@@ -27,13 +26,12 @@ select
     cast(incident_description as string) as incident_description,
     cast(resolution as string) as resolution,
     cast(police_district as string) as police_district,
-    cast(filed_online as boolean) as filed_online,
+    ifnull(cast(filed_online as string), 'unspecified') as filed_online,
     cast(cad_number as float64) as cad_number,
     cast(intersection as string) as intersection,
     cast(cnn as int64) as cnn,
     cast(analysis_neighborhood as string) as analysis_neighborhood,
     cast(supervisor_district as int64) as supervisor_district,
-    cast(supervisor_district_2012 as int64) as supervisor_district_2012,
     cast(latitude as float64) as latitude,
     cast(longitude as float64) as longitude,
     cast(hash_key as string) as original_table_hash_key
