@@ -1,6 +1,7 @@
 import shutil
 from pathlib import Path
 
+from dbt_flow import trigger_dbt_cli_command_flow
 from extract_flow import extract, total_no_of_records
 from load_bigquery_flow import load_bigquery
 from load_gcs_flow import load_gcs
@@ -23,6 +24,7 @@ def parent_etl_flow(offset: int = -1):
     local_file_list = extract(offset)
     gcs_file_paths = load_gcs(local_file_list)
     load_bigquery(gcs_file_paths)
+    trigger_dbt_cli_command_flow()
     remove_data_local()
 
 
