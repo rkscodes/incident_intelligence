@@ -1,7 +1,7 @@
 run:
 	python pipeline/flows/parent_etl_flow.py
 
-setup_prefect: install_poetry install_dependencies
+env_setup: install_poetry install_dependencies
 
 install_poetry:
 	pip install poetry
@@ -9,7 +9,7 @@ install_poetry:
 install_dependencies:
 	poetry install --no-root --without dev
 
-setup_prefect_env: prefect_register_blocks create_blocks deployment
+prefect_setup: prefect_register_blocks create_blocks deployment
 
 prefect_register_blocks:
 	-prefect block register -m prefect_gcp
