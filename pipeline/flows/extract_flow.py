@@ -29,7 +29,7 @@ def fetch_and_validate_api_data(offset: int):
     total_records = total_no_of_records()
     api_data = pd.DataFrame()
 
-    while total_records != offset:
+    while total_records > offset:
         results = client.get("wg3w-h783", offset=offset, limit=50000)
         results_df = pd.DataFrame.from_records(results)
         results_df = ensure_data_consitency(results_df)
@@ -55,7 +55,9 @@ def update_offset(offset):
     file.close()
 
     # upload the file back to gcs
-    gcs_bucket.upload_from_path(from_path=offset_dir / offset_file_name, to_path=offset_file_name)
+    gcs_bucket.upload_from_path(
+        from_path=offset_dir / offset_file_name, to_path=offset_file_name
+    )
 
 
 def total_no_of_records() -> int:
@@ -130,7 +132,9 @@ def save_data_locally(updated_api_data):
             / row["incident_month"]
             / f"{row['incident_day']}.csv"
         )
-        row.to_frame().T.to_csv(file_path, mode="a", header=not file_path.exists(), index=False)
+        row.to_frame().T.to_csv(
+            file_path, mode="a", header=not file_path.exists(), index=False
+        )
 
 
 @task()
@@ -150,7 +154,9 @@ def check_recently_modified_files():
     for file_path in directory_path.glob("**/*"):
         if file_path.is_file():
             mtime = datetime.fromtimestamp(file_path.stat().st_mtime)
-            if start_time <= mtime < end_time and "ipynb_checkpoints" not in str(file_path):
+            if start_time <= mtime < end_time and "ipynb_checkpoints" not in str(
+                file_path
+            ):
                 local_file_list.append(file_path)
 
     return local_file_list
