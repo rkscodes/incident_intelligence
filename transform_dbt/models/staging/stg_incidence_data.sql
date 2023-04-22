@@ -30,7 +30,7 @@ select
     cast(intersection as string) as intersection,
     cast(cnn as int64) as cnn,
     cast(analysis_neighborhood as string) as analysis_neighborhood,
-    cast(supervisor_district as int64) as supervisor_district,
+    ifnull(cast(supervisor_district as int64), -1) as supervisor_district,
     cast(latitude as float64) as latitude,
     cast(longitude as float64) as longitude,
     cast(hash_key as string) as original_table_hash_key
