@@ -40,3 +40,9 @@ models:
     core: 
       +materialized : table
       +schema: core 
+
+seeds:
+  transform_dbt:
+    sup_dist_lookup:
+      +column_types:
+        supervisor_district_no: numeric
