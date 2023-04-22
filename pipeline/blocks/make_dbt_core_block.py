@@ -5,7 +5,7 @@ dbt_cli_profile = DbtCliProfile.load("dbt-cli-profile-block")
 
 
 core = DbtCoreOperation(
-    commands=["dbt debug", "dbt seed --full-refresh", "dbt run"],
+    commands=["dbt clean", "dbt debug", "dbt seed --full-refresh", "dbt run"],
     stream_output=True,
     profiles_dir=".",
     project_dir="transform_dbt",
