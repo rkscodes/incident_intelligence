@@ -15,12 +15,11 @@ def load_gcs(files: List) -> Path:
     for path in files:
         upload_path = to_path(path=path)
         gcs_block.upload_from_path(from_path=path, to_path=upload_path)
-        gcs_file_path.append(to_path(path=upload_path))
+        gcs_file_path.append(upload_path)
 
     return gcs_file_path
 
 
-@task()
 def to_path(path: Path) -> Path:
     today = datetime.today()
     year, month, day = (
