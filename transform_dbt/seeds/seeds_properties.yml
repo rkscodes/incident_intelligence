@@ -1,0 +1,5 @@
+version: 2
+
+seeds: 
+  - name: sup_dist_lookup
+    description: Maping for supervisor_district to supervisor_district_name
