@@ -21,14 +21,12 @@ select
     resolution,
     police_district,
     filed_online,
-    cad_number,
     intersection,
-    cnn,
     analysis_neighborhood,
     supervisor_district,
-    supervisor_district_2012,
+    supervisor_district_name,
+    supervisor_name,
     latitude,
-    longitude,
-    original_table_hash_key
+    longitude
 
-from {{ ref("stg_incidence_data") }}
+from {{ ref("stg_incidence_sup_comb") }}
