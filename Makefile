@@ -9,7 +9,7 @@ install_poetry:
 install_dependencies:
 	poetry install --no-root --without dev
 
-prefect_setup: prefect_register_blocks create_blocks deployment
+prefect_setup: prefect_register_blocks create_blocks deployment profile_setup
 
 prefect_register_blocks:
 	-prefect block register -m prefect_gcp
@@ -41,11 +41,20 @@ deployment:
 	-python pipeline/flows/infra-docker-storage-docker_deployment.py
 	-python pipeline/flows/infra-local-storage-local_deployment.py
 
+profile_setup:
+	prefect profile use default
+	prefect config set PREFECT_API_URL=http://127.0.0.1:4200/api
+	-prefect profile create remote
+
+profile_remove: 
+	-prefect profile use default
+	-prefect profile delete remote
+	-prefect config unset PREFECT_API_URL
 
 format:
 	isort --profile black -l 100 ./
 	black -l 100 ./
 	sqlfmt .
 
-clean: remove_blocks
+clean: remove_blocks profile_remove
 	-rm -rf data/ data-gcs/ offset_dir/
