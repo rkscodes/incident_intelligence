@@ -1,4 +1,3 @@
--- {{config(materialized="table")}}
 with
     ingest_data as (
         -- deduplication step 
