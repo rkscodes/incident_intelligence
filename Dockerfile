@@ -10,5 +10,5 @@ RUN poetry install --no-root --without dev
 RUN mkdir -p pipeline/flows
 COPY pipeline/flows/ pipeline/flows
 
-# RUN chmod +x /usr/local/bin/python
-# ENTRYPOINT [ "/bin/bash" ]
+RUN mkdir transform_dbt
+COPY transform_dbt/ transform_dbt/
