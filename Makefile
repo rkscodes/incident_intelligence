@@ -41,6 +41,13 @@ deployment:
 	-python pipeline/flows/infra-docker-storage-docker_deployment.py
 	-python pipeline/flows/infra-local-storage-local_deployment.py
 
+deployment_remove:
+	-prefect deployment delete parent-etl-flow/infra-docker-storage-docker	
+	-prefect deployment delete parent-etl-flow/infra-docker-storage-github
+	-prefect deployment delete parent-etl-flow/infra-local-storage-github
+	-prefect deployment delete parent-etl-flow/infra-local-storage-local
+
+
 profile_setup:
 	prefect profile use default
 	prefect config set PREFECT_API_URL=http://127.0.0.1:4200/api
@@ -48,7 +55,6 @@ profile_setup:
 
 profile_remove: 
 	-prefect profile use default
-	-prefect profile delete remote
 	-prefect config unset PREFECT_API_URL
 
 format:
@@ -56,5 +62,5 @@ format:
 	black -l 100 ./
 	sqlfmt .
 
-clean: remove_blocks profile_remove
+clean: remove_blocks profile_remove deployment_remove
 	-rm -rf data/ data-gcs/ offset_dir/
