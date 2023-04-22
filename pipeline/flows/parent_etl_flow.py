@@ -2,7 +2,7 @@ import shutil
 from pathlib import Path
 
 from dbt_flow import trigger_dbt_cli_command_flow
-from extract_flow import extract, total_no_of_records
+from extract_flow import extract, total_no_of_records, update_offset
 from load_bigquery_flow import load_bigquery
 from load_gcs_flow import load_gcs
 from prefect import flow, task
@@ -21,10 +21,11 @@ def parent_etl_flow(offset: int = -1):
     if total_no_of_records() == offset:
         print("🚫 No new data to fetch")
         return
-    local_file_list = extract(offset)
+    local_file_list, offset = extract(offset)
     gcs_file_paths = load_gcs(local_file_list)
     load_bigquery(gcs_file_paths)
     trigger_dbt_cli_command_flow()
+    update_offset(offset)
     remove_data_local()
 
 

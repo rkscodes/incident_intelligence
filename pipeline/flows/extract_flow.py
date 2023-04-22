@@ -13,11 +13,11 @@ client = Socrata("data.sfgov.org", None)
 
 @flow(log_prints=True)
 def extract(offset: int):
-    api_data = fetch_and_validate_api_data(offset)
+    api_data, offset = fetch_and_validate_api_data(offset)
     updated_api_data = update_data(api_data)
     save_data_locally(updated_api_data)
     local_file_list = check_recently_modified_files()
-    return local_file_list
+    return [local_file_list, offset]
 
 
 @flow(
@@ -36,9 +36,7 @@ def fetch_and_validate_api_data(offset: int):
         api_data = pd.concat([api_data, results_df])
         offset += len(results_df)
 
-    update_offset(offset)
-
-    return api_data
+    return [api_data, offset]
 
 
 @task(
