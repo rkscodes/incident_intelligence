@@ -130,7 +130,7 @@ resource "google_storage_bucket" "data-lake-bucket" {
   force_destroy            = true
 }
 
-resource "google_bigquery_dataset" "data-warehouse" {
+resource "google_bigquery_dataset" "police_incidents" {
   dataset_id                 = var.BQ_DATASET
   friendly_name              = "Police Incident Bigquery"
   description                = "This is warehouse to push data into from gcs for SF Police incident"
@@ -138,9 +138,18 @@ resource "google_bigquery_dataset" "data-warehouse" {
   delete_contents_on_destroy = true
 }
 
-resource "google_bigquery_table" "raw_ingest" {
-  dataset_id          = var.BQ_DATASET
-  table_id            = "raw_ingest"
-  deletion_protection = false
+resource "google_bigquery_dataset" "staging" {
+  dataset_id                 = "staging"
+  friendly_name              = "DBT staging area"
+  description                = "This database contains stage models used in dbt"
+  location                   = var.region
+  delete_contents_on_destroy = true
+}
 
+resource "google_bigquery_dataset" "core" {
+  dataset_id                 = "core"
+  friendly_name              = "DBT core area"
+  description                = "This database will contains final tables for stakeholders"
+  location                   = var.region
+  delete_contents_on_destroy = true
 }
