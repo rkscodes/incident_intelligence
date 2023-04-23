@@ -33,6 +33,7 @@ select
     ifnull(cast(supervisor_district as int64), -1) as supervisor_district,
     cast(latitude as float64) as latitude,
     cast(longitude as float64) as longitude,
+    cast(concat(latitude,",",longitude) as string) as geo_location,
     cast(hash_key as string) as original_table_hash_key
 
 from ingest_data

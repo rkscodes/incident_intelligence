@@ -27,6 +27,7 @@ select
     supervisor_district_name,
     supervisor_name,
     latitude,
-    longitude
+    longitude,
+    geo_location
 
 from {{ ref("stg_incidence_sup_comb") }}
