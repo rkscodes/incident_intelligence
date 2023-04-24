@@ -5,17 +5,19 @@ A data pipeline that utilizes the ELT (Extract, Load, Transform) process to fetc
 ## Description
 As new incidents occur on a daily basis, I am attempting to gather insights that will enable us to take better measures. Specifically, I am seeking answers to the following questions:
 
-1.What is the frequency of incidents over time?
+[Dataset Link]()
 
-2.Which incidents happen most frequently?
+1. What is the frequency of incidents over time?
 
-3.Which areas are hotspots of crime in San Francisco?
+2. Which incidents happen most frequently?
 
-4.On which day and month do most incidents happen?
+3. Which areas are hotspots of crime in San Francisco?
 
-5.What are the trends of incidents in districts over the years?
+4. On which day and month do most incidents happen?
 
-6.How many active and closed cases are there?
+5. What are the trends of incidents in districts over the years?
+
+6. How many active and closed cases are there?
 
 
 ## Tech Stack
@@ -37,11 +39,59 @@ As new incidents occur on a daily basis, I am attempting to gather insights that
 ## Architecture
 <img src='Assets/architecture.png'>
 
+Here is brief explanation: 
+1. Using Google Cloud infrastructure
+2. Setting it up using Terraform 
+3. Extracting data from api servers
+4. Ingesting it to google bucket 
+5. Loading into Bigquery, with basic checks
+6. DBT to transform
+7. The whole process is being orchestrated by Prefect
+8. Finally using Data Studio for Analytics
+
 ## Demo
+[Live Demo](https://lookerstudio.google.com/reporting/9f6f2063-4f47-458c-bcf0-c15e2e905f92)
 
 <img src='Assets/demo/demo.gif'>
 
-[Live Analytics Page](https://lookerstudio.google.com/reporting/9f6f2063-4f47-458c-bcf0-c15e2e905f92) 
+
+## Production table structure
+| Column | Description | 
+|--------|-------------|
+|incident_datetime|	The date and time when the incident occurred|
+|incident_date|	The date when the incident occurred|
+|incident_time|	The time when the incident occurred|
+|incident_year|	The year of the incident|
+|incident_month|	The month of the incident (as a number)|
+|incident_month_name|	The name of the month when the incident occurred|
+|incident_day|	The day of the month when the incident occurred|
+|incident_day_of_week|	The day of the week when the incident occurred|
+|report_datetime|	The date and time when the incident was reported|
+|incident_id|	A unique identifier for the incident|
+|incident_number|	A unique identifier assigned to the incident by the reporting system|
+|report_type_code|	A code representing the type of report made|
+|report_type_description|	A description of the type of report made|
+|incident_code|	A code representing the type of incident |
+|incident_category|	The general category of the incident |
+|incident_subcategory|	A more specific category of the incident|
+|incident_description|	A brief description of the incident|
+|resolution|	The outcome or resolution of the incident (e.g. arrest made, no further action)|
+|police_district|	The police district in which the incident occurred|
+|filed_online|	A string indicating whether the incident was reported online|
+|intersection|	The intersection where the incident occurred|
+|analysis_neighborhood|	The neighborhood in which the incident occurred, based on an analysis by the reporting system|
+|supervisor_district|	The district number of the supervisor representing the area where the incident occurred|
+|supervisor_district_name|	The name of the supervisor district where the incident occurred|
+|supervisor_name|	The name of the supervisor representing the area where the incident occurred|
+|latitude|	The latitude coordinate of the location where the incident occurred|
+|longitude|	The longitude coordinate of the location where the incident occurred|
+|geo_location|	A string containing both latitude and longitude coordinates of the location where the incident occurred|
+
+Here is the lineage graph: 
+
+<img src='Assets/lineage.png'>
+
+
 
 
 
@@ -131,13 +181,13 @@ As new incidents occur on a daily basis, I am attempting to gather insights that
 
 ## Roadmap
 
-[] Write unit test
+- [ ] Write unit test
 
 
 ## Acknowledgements
+I would like to express my sincere gratitude to the team behind the [Data Engineering Zoomcamp](https://github.com/DataTalksClub/data-engineering-zoomcamp) course for providing me with the opportunity to enhance my skills in this field. The course has been an enriching and insightful experience, and I have gained a deeper understanding of the concepts and practices related to data engineering.
 
- - placeholder
-
+Additionally, I want to express my appreciation for the vibrant community on the course Slack channel. The discussions and interactions with fellow students have been an excellent source of support, and I have learned a great deal from their insights and experiences.
 
 ## License
 
