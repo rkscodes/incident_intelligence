@@ -5,6 +5,7 @@ env_setup: install_poetry install_dependencies
 
 install_poetry:
 	pip install poetry
+	poetry config virtualenvs.create false
 
 install_dependencies:
 	poetry install --no-root --without dev
