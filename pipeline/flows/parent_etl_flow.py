@@ -18,7 +18,8 @@ def parent_etl_flow(offset: int = -1):
         offset = int(offset)
 
     # sanity check
-    if total_no_of_records() == offset:
+    print(f"Total no of records are {total_no_of_records()}")
+    if total_no_of_records() <= offset:
         print("🚫 No new data to fetch")
         return
     local_file_list, offset = extract(offset)
@@ -47,7 +48,9 @@ def get_offset():
     # Check if the file exists in the bucket.
     if gcs_bucket.get_bucket().blob(offset_file_name).exists():
         # The file exists, so we can just download it.
-        gcs_bucket.download_object_to_path(offset_file_name, offset_dir / offset_file_name)
+        gcs_bucket.download_object_to_path(
+            offset_file_name, offset_dir / offset_file_name
+        )
     else:
         # The file does not exist, so we need to create it.
         with open(offset_dir / offset_file_name, "w") as file:
